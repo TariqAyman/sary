@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::get('me', 'AuthController@me');
+});
+
+Route::group(['middleware' => 'auth:api', 'isAdmin'], function ($router) {
+    Route::resource('users', 'UserController');
+    Route::resource('tables', 'TableController');
+    Route::post('tableAvailability', 'TableController@tableAvailability');
+    Route::get('reservations/today', 'ReservationController@today');
+    Route::resource('reservations', 'ReservationController');
 });
