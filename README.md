@@ -1,3 +1,29 @@
+## Install.
+```shell
+composer install
+```
+## Migrate Database.
+```shell
+php artisan migrate
+
+```
+## Database Seed.
+```shell
+php artisan db:seed
+```
+## Run Local Server.
+```shell
+php artisan serv
+```
+## Run Test Cases .
+```shell
+php artisan test
+```
+## URL Documentation .
+```url
+https://documenter.getpostman.com/view/2573933/U16hsmPR
+```
+
 # Introduction.
 
 Due to new regulations, restaurants are now requested to limit the number of tables and to only serve customers with prior reservations.
@@ -141,4 +167,3 @@ Restaurant employees and admins can delete a specific reservation for the curren
     - Postman Collection/Environment.
     - Any associated files that were created for this task.
 - You must submit all of the previous deliverables in a git repository.
-- The deadline for the task is: 26/05/21 by end of the day.
