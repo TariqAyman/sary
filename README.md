@@ -24,6 +24,11 @@ php artisan test
 https://documenter.getpostman.com/view/2573933/U16hsmPR
 ```
 
+## Timeline .
+```url
+https://wakatime.com/@52d61cfd-d598-443f-9573-fffc22cfd654/projects/hxxxlicayn?start=2021-09-02&end=2021-09-08
+```
+
 # Introduction.
 
 Due to new regulations, restaurants are now requested to limit the number of tables and to only serve customers with prior reservations.
