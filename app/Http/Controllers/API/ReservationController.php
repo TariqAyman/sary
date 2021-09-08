@@ -41,7 +41,12 @@ class ReservationController extends ApiController
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
+        $this->validator($request, [
+            'table_id' => 'required|numeric|exists:tables,id',
+            'start_date' => ['required', 'date', new OpeningTimeRule()],
+            'end_date' => ['required', 'date', 'after:start_date', new OpeningTimeRule()],
+            'customer_seat' => 'required|numeric',
+        ]);
 
         if ($reason = $this->validateReservation($request)) return $reason;
 
@@ -58,9 +63,9 @@ class ReservationController extends ApiController
      */
     public function show($id)
     {
-        $reservation = Reservation::query()->findOrFail($id);
+        $reservation = Reservation::query()->find($id);
 
-        if (!$reservation) return $this->notFound('User Not Found');
+        if (!$reservation) return $this->notFound('Reservation Not Found');
 
         return $this->success($reservation);
     }
@@ -74,7 +79,12 @@ class ReservationController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $this->validateRequest($request);
+        $this->validator($request, [
+            'table_id' => 'numeric|exists:tables,id',
+            'start_date' => ['date', new OpeningTimeRule()],
+            'end_date' => ['date', 'after:start_date', new OpeningTimeRule()],
+            'customer_seat' => 'numeric',
+        ]);
 
         if ($reason = $this->validateReservation($request)) return $reason;
 
@@ -115,21 +125,6 @@ class ReservationController extends ApiController
     }
 
     /**
-     * validate request
-     *
-     * @param Request $request
-     */
-    private function validateRequest(Request $request)
-    {
-        $this->validator($request, [
-            'table_id' => 'required|numeric|exists:tables,id',
-            'start_date' => ['required', 'date', new OpeningTimeRule()],
-            'end_date' => ['required', 'date', 'after:start_date', new OpeningTimeRule()],
-            'customer_seat' => 'required|numeric',
-        ]);
-    }
-
-    /**
      * check if Reservation has valid data
      *
      * @param Request $request
@@ -138,6 +133,8 @@ class ReservationController extends ApiController
     private function validateReservation(Request $request)
     {
         $table = Table::find($request->table_id);
+
+        if (!$table) return false;
 
         if ($table->seats < $request->customer_seat) return $this->badRequest('Number Of customer more the table seats');
 

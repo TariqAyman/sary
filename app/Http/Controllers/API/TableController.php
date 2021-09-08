@@ -77,8 +77,8 @@ class TableController extends ApiController
         if (!$table) return $this->notFound('Table Not Found');
 
         $this->validator($request, [
-            'number' => "required|numeric|unique:tables,number,$id",
-            'seats' => 'required|numeric|min:1|max:12',
+            'number' => "numeric|unique:tables,number,$id",
+            'seats' => 'numeric|min:1|max:12',
         ]);
 
         $table->update($request->all());

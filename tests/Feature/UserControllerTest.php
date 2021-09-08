@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-
     public function testGetAllUsers()
     {
         User::factory()->count(5)->make();
@@ -83,8 +82,8 @@ class UserControllerTest extends TestCase
             ->json('PUT', "api/users/{$user->id}", [
                 'name' => 'new name',
                 'email' => 'new@email.com',
-                'employee_number' => (int) $user->employee_number,
-                'user_type' => (string) $user->user_type,
+                'employee_number' =>  $user->employee_number,
+                'user_type' => $user->user_type,
             ])
             ->assertStatus(200)
             ->assertJson([
@@ -107,7 +106,7 @@ class UserControllerTest extends TestCase
                 'name' => 'Test Name',
                 'email' => "admin2@admin.com",
                 'password' => 'password',
-                'employee_number' => 4444,
+                'employee_number' => $this->faker->unique()->numberBetween(1111,9999),
                 'user_type' => 'employee'
             ]);
         $response->assertStatus(401)

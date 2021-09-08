@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Table::factory(10)->create();
 
+        \App\Models\Reservation::factory(5)->create();
     }
 }

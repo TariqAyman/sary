@@ -18,4 +18,9 @@ class Table extends Model
     {
         return $this->hasMany(Table::class);
     }
+
+    protected $casts = [
+        'number' => 'int',
+        'seats' => 'int',
+    ];
 }

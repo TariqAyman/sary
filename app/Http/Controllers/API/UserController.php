@@ -79,11 +79,10 @@ class UserController extends ApiController
         if (!$user) return $this->notFound('User Not Found');
 
         $this->validator($request, [
-            'name' => 'required',
-            'email' => "required|string|email|max:100|unique:users,email,$id",
+            'email' => "string|email|max:100|unique:users,email,$id",
             'password' => 'nullable|string|min:6',
-            'employee_number' => "required|digits:4|unique:users,employee_number,$id",
-            'user_type' => 'required|in:admin,employee'
+            'employee_number' => "digits:4|unique:users,employee_number,$id",
+            'user_type' => 'in:admin,employee'
         ]);
 
         $user->update($request->all());
