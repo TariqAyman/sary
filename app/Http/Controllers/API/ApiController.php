@@ -55,7 +55,12 @@ abstract class ApiController extends Controller
 
         } elseif (is_string($data)) {
             $data = [
-                'error' => $data,
+                'errors' => [
+                    [
+                        'key' => 'error',
+                        'message' => $data
+                    ]
+                ],
             ];
         } elseif (is_array($data)) {
             $data = [
@@ -85,7 +90,12 @@ abstract class ApiController extends Controller
             ];
         } elseif (is_string($data)) {
             $data = [
-                'error' => $data,
+                'errors' => [
+                    [
+                        'key' => 'error',
+                        'message' => $data
+                    ]
+                ],
             ];
         }
 
@@ -100,7 +110,14 @@ abstract class ApiController extends Controller
      */
     protected function unauthorized(string $message): JsonResponse
     {
-        $message = ['error' => $message];
+        $message = [
+            'errors' => [
+                [
+                    'key' => 'error',
+                    'message' => $message
+                ]
+            ],
+        ];
 
         return $this->send(Response::HTTP_UNPROCESSABLE_ENTITY, $message);
     }
@@ -181,6 +198,7 @@ abstract class ApiController extends Controller
      * @param Request $request
      * @param array $validation_data
      * @param array|null $message
+     * @return void|null
      */
     protected function validator(Request $request, array $validation_data, array $message = null)
     {

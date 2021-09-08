@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reservation;
 use App\Models\Table;
+use Carbon\Carbon;
 use Facade\Ignition\Tabs\Tab;
 use Illuminate\Http\Request;
 
@@ -98,8 +100,11 @@ class TableController extends ApiController
 
         if (!$table) return $this->notFound('Table Not Found');
 
+        $reservations = Reservation::query()->where('table_id', $table->id)
+            ->whereDate('start_date', '>=', Carbon::now())->exists();
 
-        /// if table has rev don't delete
+        if ($reservations) return $this->badRequest('Can\'t delete table has reservations');
+
         $table->delete();
 
         return $this->success('Table Deleted!');

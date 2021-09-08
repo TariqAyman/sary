@@ -16,6 +16,7 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('table_id');
+            $table->foreign('table_id')->references('id')->on('tables')->cascadeOnDelete();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('customer_seat');
